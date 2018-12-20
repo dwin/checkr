@@ -45,4 +45,18 @@ func TestCandidate(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, createRes.ID, retRes.ID)
 	assert.Equal(t, createRes.FirstName, retRes.FirstName)
+
+	// Update Candidate
+	updateCan := *retRes
+	updateCan.Email = randomdata.Email()
+	updateCan.SSN = ""
+	updateRes, err := c.UpdateCandidate(updateCan)
+	require.NoError(t, err)
+	assert.Equal(t, updateCan.ID, updateRes.ID)
+
+	// List Candidates
+	candidates, err := c.ListExistingCandidates()
+	require.NoError(t, err)
+	assert.NotNil(t, candidates)
+
 }

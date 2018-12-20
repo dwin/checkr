@@ -5,6 +5,7 @@ import (
 )
 
 const checkrAPIURL = "https://api.checkr.com/v1"
+const checkrDateFormat = "2006-01-02"
 
 // Client ...
 type Client struct {
