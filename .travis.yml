@@ -3,11 +3,9 @@ language: go
 
 go:
   - "1.11.x"
-  - master
 
-install:
+before_install:
   - go get github.com/mattn/goveralls
 
 script:
-  - PATH="$HOME/gopath/bin:$PATH"
-  - script/coverage --coveralls
+  - $HOME/gopath/bin/goveralls -v -service=travis-ci
