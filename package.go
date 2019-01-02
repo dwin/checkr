@@ -22,7 +22,7 @@ type CheckrPackage struct {
 
 // CheckrPackages ...
 type CheckrPackages struct {
-	Data         []CheckrPackage `json:"data"`
+	Package      []CheckrPackage `json:"data"`
 	Object       string          `json:"object"`
 	NextHref     interface{}     `json:"next_href"`
 	PreviousHref interface{}     `json:"previous_href"`
@@ -82,4 +82,21 @@ func (c *Client) ListPackages() (*CheckrPackages, error) {
 	}
 
 	return resp.Result().(*CheckrPackages), nil
+}
+
+// RetrievePackage ...
+func (c *Client) RetrievePackage(packageID string) (*CheckrPackage, error) {
+	// Handle Request
+	resp, err := c.R().SetResult(&CheckrPackage{}).SetError(&ErrorResponse{}).Get("/packages/" + packageID)
+	if err != nil {
+		return nil, err
+	}
+	// Check for expected response
+	if resp.StatusCode() != http.StatusOK {
+		errResp := resp.Error().(*ErrorResponse)
+		err = fmt.Errorf("Checkr Error: %s", errResp.Error)
+		return nil, err
+	}
+
+	return resp.Result().(*CheckrPackage), nil
 }
