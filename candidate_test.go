@@ -34,6 +34,7 @@ func TestCandidate(t *testing.T) {
 		DOB:          "1970-01-25",
 		SSN:          "111-11-2001",
 		Zipcode:      "49503",
+		CustomID:     randomdata.Digits(14),
 	}
 	createRes, err := c.CreateCandidate(candidate)
 	require.NoError(t, err)

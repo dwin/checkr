@@ -13,11 +13,11 @@ type Report struct {
 	URI                      string     `json:"uri"`
 	Status                   string     `json:"status"`
 	CreatedAt                time.Time  `json:"created_at"`
-	CompletedAt              time.Time  `json:"completed_at"`
+	CompletedAt              *time.Time `json:"completed_at"`
 	RevisedAt                *time.Time `json:"revised_at"`
 	TurnaroundTime           int        `json:"turnaround_time"`
 	DueTime                  time.Time  `json:"due_time"`
-	Adjudication             string     `json:"adjudication"`
+	Adjudication             *string    `json:"adjudication"`
 	Package                  string     `json:"package"`
 	Source                   string     `json:"source"`
 	CandidateID              string     `json:"candidate_id"`
@@ -45,7 +45,32 @@ func (c *Client) CreateReport(pkg, candidateID string) (*Report, error) {
 		return nil, err
 	}
 	// Check for expected response
-	if resp.StatusCode() != http.StatusOK {
+	if resp.StatusCode() != http.StatusCreated {
+		errResp := resp.Error().(*ErrorResponse)
+		err = fmt.Errorf("Checkr Error: %s", errResp.Error)
+		return nil, err
+	}
+
+	return resp.Result().(*Report), nil
+}
+
+// UpdateReport ...
+// For now, you can only update its package or its adjudication.
+func (c *Client) UpdateReport(reportID, pkg string, adjudication string) (*Report, error) {
+	body := map[string]string{}
+	if len(pkg) > 0 {
+		body["package"] = pkg
+	}
+	if len(adjudication) > 0 {
+		body["adjudication"] = adjudication
+	}
+	// Handle Request
+	resp, err := c.R().SetBody(body).SetResult(&Report{}).SetError(&ErrorResponse{}).Post("/reports/" + reportID)
+	if err != nil {
+		return nil, err
+	}
+	// Check for expected response
+	if resp.StatusCode() != http.StatusCreated {
 		errResp := resp.Error().(*ErrorResponse)
 		err = fmt.Errorf("Checkr Error: %s", errResp.Error)
 		return nil, err
@@ -55,9 +80,9 @@ func (c *Client) CreateReport(pkg, candidateID string) (*Report, error) {
 }
 
 // RetrieveReport ...
-func (c *Client) RetrieveReport(id string) (*Report, error) {
+func (c *Client) RetrieveReport(reportID string) (*Report, error) {
 	// Handle Request
-	resp, err := c.R().SetResult(&Report{}).SetError(&ErrorResponse{}).Get("/reports/" + id)
+	resp, err := c.R().SetResult(&Report{}).SetError(&ErrorResponse{}).Get("/reports/" + reportID)
 	if err != nil {
 		return nil, err
 	}
