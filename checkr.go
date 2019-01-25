@@ -1,9 +1,6 @@
 package checkr
 
 import (
-	"fmt"
-	"net/http"
-
 	"gopkg.in/resty.v1"
 )
 
@@ -37,19 +34,19 @@ func NewClient(apiKey string, apiURL ...string) *Client {
 	return &Client{r}
 }
 
-// Status returns error is API status response is not as expected
-func (c *Client) Status() error {
-	// Handle Request
-	resp, err := c.R().SetError(&ErrorResponse{}).Get("/status")
-	if err != nil {
-		return err
-	}
-	// Check for expected response
-	if resp.StatusCode() != http.StatusOK {
-		errResp := resp.Error().(*ErrorResponse)
-		err = fmt.Errorf("Checkr Error: %s", errResp.Error)
-		return err
-	}
+// // Status returns error is API status response is not as expected
+// func (c *Client) Status() error {
+// 	// Handle Request
+// 	resp, err := c.R().SetError(&ErrorResponse{}).Get("/status")
+// 	if err != nil {
+// 		return err
+// 	}
+// 	// Check for expected response
+// 	if resp.StatusCode() != http.StatusOK {
+// 		errResp := resp.Error().(*ErrorResponse)
+// 		err = fmt.Errorf("Checkr Error: %s", errResp.Error)
+// 		return err
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
