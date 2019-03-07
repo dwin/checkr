@@ -7,9 +7,9 @@ import (
 	"time"
 )
 
-// CheckrPackage ...
+// Package ...
 // https://docs.checkr.com/#package
-type CheckrPackage struct {
+type Package struct {
 	ID         string      `json:"id"`
 	Object     string      `json:"object"`
 	URI        string      `json:"uri"`
@@ -20,13 +20,13 @@ type CheckrPackage struct {
 	Screenings []Screening `json:"screenings"`
 }
 
-// CheckrPackages ...
-type CheckrPackages struct {
-	Package      []CheckrPackage `json:"data"`
-	Object       string          `json:"object"`
-	NextHref     interface{}     `json:"next_href"`
-	PreviousHref interface{}     `json:"previous_href"`
-	Count        int             `json:"count"`
+// Packages ...
+type Packages struct {
+	Packages     []Package   `json:"data"`
+	Object       string      `json:"object"`
+	NextHref     interface{} `json:"next_href"`
+	PreviousHref interface{} `json:"previous_href"`
+	Count        int         `json:"count"`
 }
 
 // Screening ...
@@ -36,7 +36,7 @@ type Screening struct {
 }
 
 // CreatePackage - slug will to converted to all lowercase
-func (c *Client) CreatePackage(name, slug string, screenings ...Screening) (*CheckrPackage, error) {
+func (c *Client) CreatePackage(name, slug string, screenings ...Screening) (*Package, error) {
 	// Input Validation
 	for _, v := range screenings {
 		switch v.Type {
@@ -53,7 +53,7 @@ func (c *Client) CreatePackage(name, slug string, screenings ...Screening) (*Che
 		"screenings": screenings,
 	}
 	// Handle Request
-	resp, err := c.R().SetBody(body).SetResult(&CheckrPackage{}).SetError(&ErrorResponse{}).Post("/packages")
+	resp, err := c.R().SetBody(body).SetResult(&Package{}).SetError(&ErrorResponse{}).Post("/packages")
 	if err != nil {
 		return nil, err
 	}
@@ -64,13 +64,13 @@ func (c *Client) CreatePackage(name, slug string, screenings ...Screening) (*Che
 		return nil, err
 	}
 
-	return resp.Result().(*CheckrPackage), nil
+	return resp.Result().(*Package), nil
 }
 
 // ListPackages ...
-func (c *Client) ListPackages() (*CheckrPackages, error) {
+func (c *Client) ListPackages() (*Packages, error) {
 	// Handle Request
-	resp, err := c.R().SetResult(&CheckrPackages{}).SetError(&ErrorResponse{}).Get("/packages")
+	resp, err := c.R().SetResult(&Packages{}).SetError(&ErrorResponse{}).Get("/packages")
 	if err != nil {
 		return nil, err
 	}
@@ -81,13 +81,13 @@ func (c *Client) ListPackages() (*CheckrPackages, error) {
 		return nil, err
 	}
 
-	return resp.Result().(*CheckrPackages), nil
+	return resp.Result().(*Packages), nil
 }
 
 // RetrievePackage ...
-func (c *Client) RetrievePackage(packageID string) (*CheckrPackage, error) {
+func (c *Client) RetrievePackage(packageID string) (*Package, error) {
 	// Handle Request
-	resp, err := c.R().SetResult(&CheckrPackage{}).SetError(&ErrorResponse{}).Get("/packages/" + packageID)
+	resp, err := c.R().SetResult(&Package{}).SetError(&ErrorResponse{}).Get("/packages/" + packageID)
 	if err != nil {
 		return nil, err
 	}
@@ -98,5 +98,5 @@ func (c *Client) RetrievePackage(packageID string) (*CheckrPackage, error) {
 		return nil, err
 	}
 
-	return resp.Result().(*CheckrPackage), nil
+	return resp.Result().(*Package), nil
 }

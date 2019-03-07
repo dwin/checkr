@@ -30,7 +30,7 @@ func TestPackage(t *testing.T) {
 	assert.NotEmpty(t, pkgs, "List of Packages should not be empty")
 
 	// Retrieve Package
-	retrieveID := pkgs.Package[0].ID
+	retrieveID := pkgs.Packages[0].ID
 	pkg, err := c.RetrievePackage(retrieveID)
 	require.NoError(t, err)
 	assert.Equal(t, retrieveID, pkg.ID)

@@ -12,7 +12,6 @@ func TestDocument(t *testing.T) {
 	// Load Key & Create Client
 	apiKey := LoadKey(t)
 	c := NewClient(apiKey)
-	c.SetProxy("http://localhost:4321")
 
 	// Create Candidate for Testing
 	candidate := Candidate{
