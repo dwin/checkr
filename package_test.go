@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	randomdata "github.com/Pallinder/go-randomdata"
+	randomdata "github.com/pallinder/go-randomdata"
 )
 
 func TestPackage(t *testing.T) {

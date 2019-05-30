@@ -3,7 +3,7 @@ package checkr
 import (
 	"testing"
 
-	randomdata "github.com/Pallinder/go-randomdata"
+	randomdata "github.com/pallinder/go-randomdata"
 	"github.com/stretchr/testify/require"
 )
 
