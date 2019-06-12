@@ -1,4 +1,4 @@
-module checkr
+module github.com/dwin/checkr
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
