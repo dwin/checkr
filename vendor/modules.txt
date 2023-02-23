@@ -7,7 +7,7 @@ github.com/pmezard/go-difflib/difflib
 # github.com/stretchr/testify v1.2.2
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/require
-# golang.org/x/net v0.0.0-20181220203305-927f97764cc3
+# golang.org/x/net v0.0.0-20220722155237-a158d28d115b
 golang.org/x/net/publicsuffix
 # gopkg.in/resty.v1 v1.12.0
 gopkg.in/resty.v1
